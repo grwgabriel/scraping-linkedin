@@ -29,8 +29,8 @@ senha_element = navegador.find_element(By.ID, 'session_password')
 login_element = navegador.find_element(By.CSS_SELECTOR, '#main-content > section.section.min-h-\[560px\].flex-nowrap.pt-\[40px\].babybear\:flex-col.babybear\:min-h-\[0\].babybear\:px-mobile-container-padding.babybear\:pt-\[24px\] > div > div > form > div.flex.justify-between.sign-in-form__footer--full-width > button')
 
 #Login e senha
-email_element.send_keys('')
-senha_element.send_keys('')
+email_element.send_keys('gabrielwermuth1@gmail.com')
+senha_element.send_keys('123698741g')
 login_element.click()
 navegador.implicitly_wait(40)
 
@@ -54,6 +54,7 @@ titulos = []
 empresas = []
 regimes = []
 cidades = []
+Id_vaga = []
 data = []
 
 #Itera sobre as abas
@@ -73,13 +74,14 @@ for posicao in range(len(lista_abas)-1):
                 if 'ember-view' in classe and 'ember' in id:
                     print('chegou if')
                     html = link.find_element(By.TAG_NAME,'a').click()
-                    time.sleep(1)
+                    time.sleep(3)
                     div = navegador.find_element(By.XPATH,'//*[@id="main"]/div/div[2]/div[1]/div')
                     ActionChains(navegador).move_to_element(div).perform()
                     navegador.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight",div)
 
                     #Extração de dados
                     titulo_vaga = navegador.find_element(By.CLASS_NAME,'job-details-jobs-unified-top-card__job-title-link').text
+                    ID_vaga = link.get_attribute('data-occludable-job-id')
                     titulo_vaga1 = unidecode(titulo_vaga)
                     empresa = link.find_element(By.CLASS_NAME,'job-card-container__primary-description').text
                     empresa1 = unidecode(empresa)
@@ -89,12 +91,14 @@ for posicao in range(len(lista_abas)-1):
                     regime = re.search(r'\((.*?)\)', cidade_regime).group(1)
                     regime1 = unidecode(regime)
                     data_consulta = date.today()
+                    print(ID_vaga)
 
                     #Insere nas listas
                     titulos.append(titulo_vaga1)
                     empresas.append(empresa1)
                     regimes.append(regime1)
                     cidades.append(cidade1)
+                    Id_vaga.append(ID_vaga)
                     data.append(data_consulta)
                     time.sleep(2)
             except:
@@ -108,6 +112,7 @@ dictDF = {'Titulo': titulos,
             'Empresa': empresas,
             'Regime': regimes,
             'Cidade': cidades,
+            'ID Vaga':Id_vaga,
             'Data': data}
 df = pd.DataFrame(dictDF)
 print(df)
