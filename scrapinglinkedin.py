@@ -29,8 +29,8 @@ senha_element = navegador.find_element(By.ID, 'session_password')
 login_element = navegador.find_element(By.CSS_SELECTOR, '#main-content > section.section.min-h-\[560px\].flex-nowrap.pt-\[40px\].babybear\:flex-col.babybear\:min-h-\[0\].babybear\:px-mobile-container-padding.babybear\:pt-\[24px\] > div > div > form > div.flex.justify-between.sign-in-form__footer--full-width > button')
 
 #Login e senha
-email_element.send_keys('gabrielwermuth1@gmail.com')
-senha_element.send_keys('123698741g')
+email_element.send_keys('')
+senha_element.send_keys('')
 login_element.click()
 navegador.implicitly_wait(40)
 
@@ -72,7 +72,7 @@ for posicao in range(len(lista_abas)-1):
                 id = link.get_attribute('id')
                 classe = link.get_attribute('class')
                 if 'ember-view' in classe and 'ember' in id:
-                    print('chegou if')
+                    # print('chegou if')
                     html = link.find_element(By.TAG_NAME,'a').click()
                     time.sleep(3)
                     div = navegador.find_element(By.XPATH,'//*[@id="main"]/div/div[2]/div[1]/div')
@@ -91,7 +91,6 @@ for posicao in range(len(lista_abas)-1):
                     regime = re.search(r'\((.*?)\)', cidade_regime).group(1)
                     regime1 = unidecode(regime)
                     data_consulta = date.today()
-                    print(ID_vaga)
 
                     #Insere nas listas
                     titulos.append(titulo_vaga1)
