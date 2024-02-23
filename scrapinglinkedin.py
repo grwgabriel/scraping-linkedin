@@ -40,7 +40,7 @@ vagas_element.click()
 navegador.implicitly_wait(50)
 
 #Procura pela vaga
-navegador.find_element(By.XPATH,'/html/body/div[5]/header/div/div/div/div[2]/div[2]/div/div/input[1]').send_keys('Analista de Dados', Keys.ENTER)
+navegador.find_element(By.XPATH,'/html/body/div[5]/header/div/div/div/div[2]/div[2]/div/div/input[1]').send_keys('Desenvolvedor', Keys.ENTER)
 navegador.implicitly_wait(50)
 
 #Localiza lista de vagas
@@ -56,6 +56,7 @@ regimes = []
 cidades = []
 Id_vaga = []
 data = []
+link_vaga = []
 
 #Itera sobre as abas
 for posicao in range(len(lista_abas)-1):
@@ -74,7 +75,8 @@ for posicao in range(len(lista_abas)-1):
                 if 'ember-view' in classe and 'ember' in id:
                     # print('chegou if')
                     html = link.find_element(By.TAG_NAME,'a').click()
-                    time.sleep(3)
+                    links_vagas = link.find_element(By.TAG_NAME,'a').get_attribute('href')
+                    time.sleep(2)
                     div = navegador.find_element(By.XPATH,'//*[@id="main"]/div/div[2]/div[1]/div')
                     ActionChains(navegador).move_to_element(div).perform()
                     navegador.execute_script("arguments[0].scrollTop = arguments[0].scrollHeight",div)
@@ -91,6 +93,7 @@ for posicao in range(len(lista_abas)-1):
                     regime = re.search(r'\((.*?)\)', cidade_regime).group(1)
                     regime1 = unidecode(regime)
                     data_consulta = date.today()
+                    print(titulo_vaga1)
 
                     #Insere nas listas
                     titulos.append(titulo_vaga1)
@@ -99,6 +102,7 @@ for posicao in range(len(lista_abas)-1):
                     cidades.append(cidade1)
                     Id_vaga.append(ID_vaga)
                     data.append(data_consulta)
+                    link_vaga.append(links_vagas)
                     time.sleep(2)
             except:
                 print('nao encontrou')
@@ -112,7 +116,8 @@ dictDF = {'Titulo': titulos,
             'Regime': regimes,
             'Cidade': cidades,
             'ID Vaga':Id_vaga,
-            'Data': data}
+            'Data': data,
+            'Link': link_vaga}
 df = pd.DataFrame(dictDF)
 print(df)
 
